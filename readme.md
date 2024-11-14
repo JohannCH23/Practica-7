@@ -17,6 +17,7 @@ Todos estes arquivos créanse na mesma carpeta de `conf`.
 
 Os volumes púxenos separados no arquivo compose.yml da seguinte maneira:
 
+``
 version: '3'
 
 services:
@@ -59,35 +60,38 @@ networks:
     ipam:
       config:
         - subnet: 192.168.0.0/16
-
+``
 
 ##### - Red propia interna para tódo-los contenedores
 
 Nas *networks* creo a rede `bind9_subnet` de tipo *bridge*, que é a que permite a comunicación entre os contedores.
 
 Aquí usei a `ipv4_address` para que os contedores teñan a IP fixa.
+```
     networks:
       bind9_subnet:
         ipv4_address: 192.168.23.2
-
+```
 Na subrede especifico un rango de IPs que será usado exclusivamente para os contedores.networks:
+```  
   bind9_subnet:
     driver: bridge
     ipam:
       config:
         - subnet: 192.168.0.0/16
-
+```
 ##### - ip fixa no servidor
 
 Para a IP fixa do servidor usei a seguinte:
+```
     networks:
       bind9_subnet:
         ipv4_address: 192.168.23.1 
-
+```
 ##### - Configurar Forwarders
 
 Na configuración de *Forwarders* vaise ao arquivo `named.conf.options`.
-
+```
 options {
 	directory "/var/cache/bind";
 	recursion yes;
@@ -100,7 +104,7 @@ options {
 	listen-on { any; };
 	listen-on-v6 { any; };
 };
-
+``
 Aquí puxen os DNS de Google nos *forwarders* para resolver calquera dominio que o servidor BIND9 non sexa capaz de resolver.
 
 Engadín `dnssec-validation no;` para poder usar a imaxe alpine, xa que se o activo, o DNSSEC non me deixa realizar *updates* ou *add*.
@@ -109,7 +113,7 @@ Engadín `dnssec-validation no;` para poder usar a imaxe alpine, xa que se o act
 #####   - Rexistros a configurar: NS, A, CNAME, TXT, SOA
 
 Na carpeta `zonas/db.erazo.castelao.int` engadín todo o requirido.
-
+``
 $TTL 38400	; 10 hours 40 minutes
 @		IN SOA	ns.erazo.castelao.int. root.erazo.castelao.int. (
 				23         ; serial
@@ -123,7 +127,7 @@ ns		IN A		192.168.23.1
 test		IN A		192.168.23.4
 alias	IN CNAME	web.erazo.castelao.com.
 info	IN TXT		"Server DNS erazo.castelao.int"
-
+```
 Poñín a zona `erazo.castelao.int` que inclúe:
 
 - O NS con `ns.erazo.castelao.int`.
