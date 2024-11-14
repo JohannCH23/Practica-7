@@ -17,7 +17,7 @@ Todos estes arquivos créanse na mesma carpeta de `conf`.
 
 Os volumes púxenos separados no arquivo compose.yml da seguinte maneira:
 
-``
+```
 version: '3'
 
 services:
@@ -60,7 +60,7 @@ networks:
     ipam:
       config:
         - subnet: 192.168.0.0/16
-``
+```
 
 ##### - Red propia interna para tódo-los contenedores
 
