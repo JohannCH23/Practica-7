@@ -22,7 +22,13 @@ version: '3'
 services:
   practica7:
     container_name: 7practica
+    # usamos esta imagen para poder ver los logs
+    # la imagen de internetsystemsconsortium/bind9
+    # no muestra los logs
     image: internetsystemsconsortium/bind9:9.18
+    # especificamos la plataforma de la imagen
+    # es posible conflicto cuando el host es 'arm'
+    # ya que no existe una imagen para esa plataforma
     platform: linux/amd64
     ports:
       - "54:53/udp"
